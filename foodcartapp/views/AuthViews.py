@@ -25,7 +25,7 @@ class SignUpView(View):
             user.customer_profile.phone_number = form.cleaned_data['phone_number']
             user.customer_profile.address = form.cleaned_data['address']
 
-            staff = Group.objects.get(name="HotelAdmins")
+            staff = Group.objects.get(name="RestaurantAdmins")
             staff.user_set.add(user)
             user.is_staff = True
             user.save()
@@ -33,7 +33,7 @@ class SignUpView(View):
 
             if user is not None:
                 login(request, user)
-                return redirect('foodcartapp:HotelView')
+                return redirect('foodcartapp:RestaurantView')
             else:
                 raise PermissionDenied
 
@@ -42,7 +42,7 @@ class LoginView(View):
     def get(self, request, *args, **kwargs):
         if(request.user.is_authenticated):
             if request.user.is_staff:
-                return redirect("foodcartapp:HotelView")
+                return redirect("foodcartapp:RestaurantView")
             raise PermissionDenied
 
         form = Login()
@@ -58,7 +58,7 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 if user.is_staff:
-                    return redirect("foodcartapp:HotelView")
+                    return redirect("foodcartapp:RestaurantView")
             raise PermissionDenied
 
 
