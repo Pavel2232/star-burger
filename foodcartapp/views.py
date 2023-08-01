@@ -64,8 +64,6 @@ def register_order(request):
     response = request.data
 
     serializer = CreateOrderSerializer(data=response)
-    if serializer.is_valid(raise_exception=True):
-        serializer.create(serializer.validated_data)
-        return Response(serializer.initial_data)
-    else:
-        return Response({'validate_date': 'Is {}'})
+    serializer.is_valid(raise_exception=True)
+    serializer.create(serializer.validated_data)
+    return Response(serializer.initial_data)

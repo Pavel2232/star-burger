@@ -144,34 +144,30 @@ class OrderQuerySet(models.QuerySet):
 
 
 class StatusOrder(models.TextChoices):
-    unprocessed = 'Необработанный заказ', 'Необработанный заказ'
-    in_work = 'Готовится рестораном', 'Готовится рестораном'
-    delivery = 'Передан курьеру', 'Передан курьеру'
-    completed = 'Заказ завершён', 'Заказ завершён'
+    unprocessed = 'unprocessed', 'Необработанный заказ'
+    in_work = 'in_work', 'Готовится рестораном'
+    delivery = 'delivery', 'Передан курьеру'
+    completed = 'completed', 'Заказ завершён'
 
 
 class ChoicePay(models.TextChoices):
-    cash = 'Наличные', 'Наличные'
-    cart = 'Карта', 'Карта'
+    cash = 'cash', 'Наличные'
+    card = 'card', 'Карта'
 
 
 class Order(models.Model):
     firstname = models.CharField(
         max_length=100,
-        verbose_name='Имя',
-        null=False)
+        verbose_name='Имя')
     lastname = models.CharField(
         max_length=160,
-        verbose_name='Фамилия',
-        null=False)
+        verbose_name='Фамилия')
     phonenumber = modelfields.PhoneNumberField(
-        verbose_name='Номер телефона',
-        null=False)
+        verbose_name='Номер телефона')
     address = models.CharField(
         max_length=255,
         verbose_name='Адрес',
-        db_index=True,
-        null=False)
+        db_index=True)
     status = models.CharField(
         max_length=21,
         verbose_name='Статус заказа',
@@ -180,9 +176,8 @@ class Order(models.Model):
         db_index=True)
     comment = models.TextField(
         verbose_name='Комментарий',
-        null=True,
         blank=True)
-    create_at = models.DateTimeField(
+    created_at = models.DateTimeField(
         auto_created=True,
         auto_now_add=True,
         verbose_name='Дата создания заказа',
@@ -197,12 +192,12 @@ class Order(models.Model):
         null=True,
         blank=True,
         verbose_name='Время когда доставлен заказ')
-    payment_form = models.CharField(
+    payment_method = models.CharField(
         max_length=8,
         verbose_name='Форма оплаты',
         choices=ChoicePay.choices,
         db_index=True)
-    restaurant = models.ForeignKey(
+    cooking_restaurant = models.ForeignKey(
         Restaurant,
         on_delete=models.PROTECT,
         null=True,
@@ -225,25 +220,20 @@ class ProductQuantity(models.Model):
         Product,
         on_delete=models.PROTECT,
         related_name='quantity',
-        verbose_name='Товар',
-        null=False)
+        verbose_name='Товар')
     quantity = models.PositiveSmallIntegerField(
         verbose_name='Кол-во',
-        null=False,
         validators=[MinValueValidator(1)])
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
         related_name='quantity',
-        verbose_name='Товар, Кол-во',
-        null=False)
+        verbose_name='Товар, Кол-во')
     price = models.DecimalField(
         verbose_name='цена',
         max_digits=8,
         decimal_places=2,
-        validators=[MinValueValidator(0)],
-        null=False,
-        blank=False)
+        validators=[MinValueValidator(0)])
 
     class Meta:
         verbose_name = 'Товар, Кол-во'

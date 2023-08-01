@@ -126,7 +126,7 @@ class ProductQuantityInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    readonly_fields = ['create_at', ]
+    readonly_fields = ['created_at', ]
 
     def response_change(self, request, obj):
         admin_page = super(OrderAdmin, self).response_change(request, obj)
@@ -138,7 +138,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     def get_form(self, request, order: Order=None, change=False, **kwargs):
         form = super().get_form(request, order, **kwargs)
-        if order == None:
+        if order is None:
             return form
         name_restaurants = []
         for custom in Order.objects.filter(id=order.id).get_restaurants():

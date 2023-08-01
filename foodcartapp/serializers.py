@@ -10,16 +10,15 @@ class ProductQuantitySerializer(serializers.ModelSerializer):
         model = ProductQuantity
         fields = ['quantity', 'product']
 
-    def create_from_order(self, validated_data, order: Order):
-        try:
-            prodquantity = ProductQuantity.objects.create(
-                product=validated_data.get('product'),
-                quantity=validated_data.get('quantity'),
-                order=order
-            )
-            return prodquantity
-        except Exception:
-            raise serializers.ValidationError(f"{validated_data.get('product')}")
+    def create(self, validated_data, order: Order):
+        transaction.atomic()
+        prodquantity = ProductQuantity.objects.create(
+            product=validated_data.get('product'),
+            quantity=validated_data.get('quantity'),
+            order=order
+        )
+        return prodquantity
+
 
 
 class CreateOrderSerializer(serializers.ModelSerializer):
@@ -38,6 +37,6 @@ class CreateOrderSerializer(serializers.ModelSerializer):
                 prod['product'] = prod.get('product').id
                 serializer = ProductQuantitySerializer(data=prod)
                 serializer.is_valid(raise_exception=True)
-                serializer.create_from_order(serializer.validated_data, order)
+                serializer.create(serializer.validated_data, order)
 
             return order
