@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "star-burger"
+version = "0.1.0"
+description = ""
+authors = ["Павел <king-he@mail.ru>"]
+readme = "README.md"
+packages = [{include = "star_burger"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.3"
+django-debug-toolbar = "^4.1.0"
+pillow = "^10.0.0"
+django-environs = "^0.1.1"
+django-phonenumber-field = "^7.1.0"
+django-phonenumbers = "^1.0.1"
+django-admin-sortable2 = "^2.1.8"
+djangorestframework = "^3.14.0"
+requests = "^2.31.0"
+geopy = "^2.3.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
