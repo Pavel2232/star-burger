@@ -9,8 +9,9 @@ env = Env()
 env.read_env()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+print(env.list('ALLOWED_HOSTS'))
 
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', False)
@@ -90,7 +91,7 @@ MEDIA_URL = '/media/'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=env(DB_URL)
+        default=env('DB_URL')
         )
 }
 
@@ -109,12 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ROLLBAR = {
-    'access_token': env('ROLLBAR_TOKEN'),
-    'environment': 'development' if DEBUG else 'production',
-    'code_version': '1.0',
-    'root': BASE_DIR,
-}
+if not DEBUG:
+    ROLLBAR = {
+        'access_token': env('ROLLBAR_TOKEN'),
+        'environment': env('environment', 'development'),
+        'code_version': '1.0',
+        'root': BASE_DIR,
+    }
 
 LANGUAGE_CODE = 'ru-RU'
 
