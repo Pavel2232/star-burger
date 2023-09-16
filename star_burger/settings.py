@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 if not DEBUG:
     ROLLBAR = {
         'access_token': env('ROLLBAR_TOKEN'),
-        'environment': env('environment', 'development'),
+        'environment': env('ROLLBAR_ENVIRONMENT', 'development'),
         'code_version': '1.0',
         'root': BASE_DIR,
     }
