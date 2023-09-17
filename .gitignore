@@ -1,7 +1,15 @@
 bundles/**
 node_modules/
 media/
-
+.db.json.swo
+.db.json.swp
+.env.swo
+.env.swp
+data.json
+db.json
+foodcartapp/migrations/0038_order_alter_product_description_productquantity.py
+geolocation/migrations/0002_alter_location_lat_alter_location_long.py
+static/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
