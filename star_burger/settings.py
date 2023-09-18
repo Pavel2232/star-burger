@@ -11,7 +11,7 @@ env.read_env()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-print(env.list('ALLOWED_HOSTS'))
+
 
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env.bool('DEBUG', False)
@@ -110,13 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-if not DEBUG:
-    ROLLBAR = {
-        'access_token': env('ROLLBAR_TOKEN'),
-        'environment': env('ROLLBAR_ENVIRONMENT', 'development'),
-        'code_version': '1.0',
-        'root': BASE_DIR,
-    }
+
+ROLLBAR = {
+    'access_token': env('ROLLBAR_TOKEN', None),
+    'environment': env('ROLLBAR_ENVIRONMENT', 'development'),
+    'code_version': '1.0',
+    'root': BASE_DIR,
+}
 
 LANGUAGE_CODE = 'ru-RU'
 
